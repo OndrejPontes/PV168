@@ -177,11 +177,11 @@ public class MainFrame extends javax.swing.JFrame {
             int[] selectedRows = JTableAgents.getSelectedRows();
             List<Integer> toDeleteRows = new ArrayList<>();
             if (selectedRows.length >= 0) {
-                for (int selectedRow : selectedRows) {
-                    Agent agent = agentsTable.getAgent(selectedRow);
+                for (int i = selectedRows.length-1; i >= 0; i--) {
+                    Agent agent = agentsTable.getAgent(selectedRows[i]);
                     try {
                         agentModel.delete(agent.getId());
-                        toDeleteRows.add(selectedRow);
+                        toDeleteRows.add(selectedRows[i]);
                     }catch(Exception x) {
                         throw new ServiceFailureException(agent.toString());
                     }   
@@ -216,11 +216,11 @@ public class MainFrame extends javax.swing.JFrame {
             int[] selectedRows = JTableMissions.getSelectedRows();
             List<Integer> toDeleteRows = new ArrayList<>();
             if (selectedRows.length >= 0) {
-                for (int selectedRow : selectedRows) {
-                    Mission mission = missionTable.getMission(selectedRow);
+                for (int i = selectedRows.length-1; i >= 0; i--) {
+                    Mission mission = missionTable.getMission(selectedRows[i]);
                     try {
                         missionModel.delete(mission.getId());
-                        toDeleteRows.add(selectedRow);
+                        toDeleteRows.add(selectedRows[i]);
                     }catch (Exception ex) {
                         throw new ServiceFailureException(mission.toString());
                     }
@@ -255,11 +255,11 @@ public class MainFrame extends javax.swing.JFrame {
             int[] selectedRows = JTableManager.getSelectedRows();
             List<Integer> toDeleteRows = new ArrayList<>();
             if (selectedRows.length >= 0) {
-                for (int selectedRow : selectedRows) {
-                    Manager manager = managerTable.getManager(selectedRow);
+                for (int i = selectedRows.length-1; i >= 0; i--) {
+                    Manager manager = managerTable.getManager(selectedRows[i]);
                     try {
                         managerModel.delete(manager.getId());
-                        toDeleteRows.add(selectedRow);
+                        toDeleteRows.add(selectedRows[i]);
                     }catch (Exception ex) {
                         log.error("Cannot delete manager." + ex);
                     }
@@ -581,8 +581,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                int selectedRow = JTableAgents.getSelectedRow();
-                new ManagerCreateForm(MainFrame.this, managerModel.findById(Long.valueOf(selectedRow)+1), selectedRow, "Update").setVisible(true);
+                int selectedRow = JTableManager.getSelectedRow();
+                new ManagerCreateForm(MainFrame.this, managerModel.findById(managerTable.getManager(selectedRow).getId()), selectedRow, "Update").setVisible(true);
             }
         });
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -600,7 +600,7 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 int selectedRow = JTableAgents.getSelectedRow();
-                new AgentCreateForm(MainFrame.this, agentModel.findById(Long.valueOf(selectedRow)+1), selectedRow, "Update").setVisible(true);
+                new AgentCreateForm(MainFrame.this, agentModel.findById(agentsTable.getAgent(selectedRow).getId()), selectedRow, "Update").setVisible(true);
             }
         });
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -609,7 +609,7 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 int selectedRow = JTableMissions.getSelectedRow();
-                new MissionCreateForm(MainFrame.this, missionModel.findById(Long.valueOf(selectedRow)+1), selectedRow, "Update").setVisible(true);
+                new MissionCreateForm(MainFrame.this, missionModel.findById(missionTable.getMission(selectedRow).getId()), selectedRow, "Update").setVisible(true);
             }
         });
     }//GEN-LAST:event_jButton5ActionPerformed
